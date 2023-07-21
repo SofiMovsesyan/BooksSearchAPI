@@ -13,17 +13,17 @@ public interface BooksService {
 
     List<Books> findAll();
 
-    Books saveProduct(
+    Books saveBooks(
             String name,
             String author,
             String description,
             String genre);
 
-    Books updateProduct(
+    Books updateBooks(
             String name,
             String author,
             @Nullable String genre,
             @Nullable String description);
 
-    void deleteProduct(Long id);
+    void deleteBooks(Long id);
 }

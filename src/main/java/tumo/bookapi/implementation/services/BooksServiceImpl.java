@@ -43,17 +43,17 @@ public class BooksServiceImpl implements BooksService {
     }
 
     @Override
-    public Books saveProduct(String name, String author, String description, String genre) {
+    public Books saveBooks(String name, String author, String description, String genre) {
         return null;
     }
 
     @Override
-    public Books updateProduct(String name, String author, @Nullable String genre, @Nullable String description) {
+    public Books updateBooks(String name, String author, @Nullable String genre, @Nullable String description) {
         return null;
     }
 
     @Override
-    public void deleteProduct(Long id) {
+    public void deleteBooks(Long id) {
 
     }
 }
