@@ -9,7 +9,7 @@ import tumo.bookapi.api.services.BookService;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/")
+@RequestMapping("api/v1/BooksSearch")
 public class BookController {
 
     private final BookService bookService;
@@ -75,6 +75,11 @@ public class BookController {
         Book book = this.bookService.saveBook(name, author, genre, description);
         return book;
     }
+
+    // Add new PostMapping point to add a book to our database that will be fetched from Google books APIs
+    @PostMapping("/fromGoogleApi/")
+
+
 
     //Update
     @PutMapping("")

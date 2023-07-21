@@ -26,6 +26,12 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book findByName(String name) {
         Optional<Book> book = bookRepository.findBookByName(name);
+
+        // Potential Future enhancement
+//        // What if we dont have this book in our database?
+//        // Then go fetch from google API
+//        fetchBooksFromGoogleApi
+
         return book.get();
     }
 
@@ -74,5 +80,17 @@ public class BookServiceImpl implements BookService {
     public void deleteBook(Long id) {
         bookRepository.deleteById(id);
 
+    }
+
+    public Book findBookFromGoogleApi() {
+
+    }
+
+    public void fetchBooksFromGoogleApi() {
+        final Book books = new Book.Builder(GoogleNetHttpTransport.newTrustedTransport(), jsonFactory, null)
+                .setApplicationName(APPLICATION_NAME)
+                .setGoogleClientRequestInitializer(new BooksRequestInitializer(ClientCredentials.API_KEY))
+                .build();
+        ...
     }
 }
