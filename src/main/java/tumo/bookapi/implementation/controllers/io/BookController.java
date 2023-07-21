@@ -3,27 +3,27 @@ package tumo.bookapi.implementation.controllers.io;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.web.bind.annotation.*;
-import tumo.bookapi.api.domain.Books;
-import tumo.bookapi.api.services.BooksService;
+import tumo.bookapi.api.domain.Book;
+import tumo.bookapi.api.services.BookService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("api/")
-public class BooksController {
+public class BookController {
 
-    private final BooksService booksService;
+    private final BookService bookService;
 
 
-    public BooksController(BooksService booksService) {
-        this.booksService = booksService;
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
     }
 
     //Retrieves
     @GetMapping("{id}")
-    public Books findByID(@PathVariable Long id ){
-        Books books = this.booksService.findById(id);
-        return books;
+    public Book findByID(@PathVariable Long id ){
+        Book book = this.bookService.findById(id);
+        return book;
     }
 
 
@@ -43,55 +43,55 @@ public class BooksController {
     )
 
     @GetMapping("{name}")
-    public Books findByName(@PathVariable String name ){
-        Books books = this.booksService.findByName(name);
-        return books;
+    public Book findByName(@PathVariable String name ){
+        Book book = this.bookService.findByName(name);
+        return book;
     }
 
     @GetMapping("{author}")
-    public Books findByAuthor(@PathVariable String author ){
-        Books books = this.booksService.findByAuthor(author);
-        return books;
+    public Book findByAuthor(@PathVariable String author ){
+        Book book = this.bookService.findByAuthor(author);
+        return book;
     }
 
     @GetMapping("{genre}")
-    public Books findByGenre(@PathVariable String genre ){
-        Books books = this.booksService.findByGenre(genre);
-        return books;
+    public Book findByGenre(@PathVariable String genre ){
+        Book book = this.bookService.findByGenre(genre);
+        return book;
     }
 
     @GetMapping("")
-    public List<Books> findAll() {
-        List<Books> allBooks = this.booksService.findAll();
+    public List<Book> findAll() {
+        List<Book> allBooks = this.bookService.findAll();
         return allBooks;
     }
 
     @PostMapping("")
-    public Books createProduct(
+    public Book createBook(
             @RequestParam String name,
             @RequestParam String author,
             @RequestParam String genre,
             @RequestParam String description) {
-        Books product = this.booksService.saveBooks(name, author, genre, description);
-        return product;
+        Book book = this.bookService.saveBook(name, author, genre, description);
+        return book;
     }
 
     //Update
     @PutMapping("")
-    public Books updateProduct(
+    public Book updateBook(
             @RequestParam String name,
             @RequestParam String author,
             @RequestParam(required = false) String genre,
             @RequestParam(required = false) String description
     ) {
-        Books product = this.booksService.updateBooks(name, author, genre, description);
-        return product;
+        Book book = this.bookService.updateBook(name, author, genre, description);
+        return book;
     }
 
     //Delete
     @DeleteMapping("{id}")
     public void deleteById(@PathVariable Long id) {
-        this.booksService.deleteBooks(id);
+        this.bookService.deleteBook(id);
     }
 
 

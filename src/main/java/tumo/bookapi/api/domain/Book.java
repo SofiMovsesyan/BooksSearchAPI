@@ -6,7 +6,7 @@ import lombok.Data;
 @Entity
 @Table(name = "book")
 @Data
-public class Books {
+public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,14 +23,14 @@ public class Books {
     @Column(name = "genre")
     private String genre;
 
-    public Books(String name, String author, String description, String genre) {
+    public Book(String name, String author, String description, String genre) {
         this.name = name;
         this.author = author;
         this.description = description;
         this.genre = genre;
     }
 
-    public Books() {
+    public Book() {
 
     }
 }

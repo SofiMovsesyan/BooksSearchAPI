@@ -1,29 +1,29 @@
 package tumo.bookapi.api.services;
 
 import jakarta.annotation.Nullable;
-import tumo.bookapi.api.domain.Books;
+import tumo.bookapi.api.domain.Book;
 
 import java.util.List;
 
-public interface BooksService {
-    Books findById(Long id);
-    Books findByName(String name);
-    Books findByAuthor(String name);
-    Books findByGenre(String name);
+public interface BookService {
+    Book findById(Long id);
+    Book findByName(String name);
+    Book findByAuthor(String name);
+    Book findByGenre(String name);
 
-    List<Books> findAll();
+    List<Book> findAll();
 
-    Books saveBooks(
+    Book saveBook(
             String name,
             String author,
             String description,
             String genre);
 
-    Books updateBooks(
+    Book updateBook(
             String name,
             String author,
             @Nullable String genre,
             @Nullable String description);
 
-    void deleteBooks(Long id);
+    void deleteBook(Long id);
 }
