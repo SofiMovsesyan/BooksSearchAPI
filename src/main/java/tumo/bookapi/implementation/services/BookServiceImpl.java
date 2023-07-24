@@ -1,20 +1,35 @@
 package tumo.bookapi.implementation.services;
-
 import jakarta.annotation.Nullable;
 import org.springframework.stereotype.Service;
 import tumo.bookapi.api.domain.Book;
 import tumo.bookapi.api.repositories.BookRepository;
 import tumo.bookapi.api.services.BookService;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.Optional;
+
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.services.books.Books;
+import com.google.api.services.books.BooksRequestInitializer;
+import com.google.api.services.books.model.Volume;
+import com.google.api.services.books.model.Volumes;
 
 @Service
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
+    private static final String APPLICATION_NAME = "Books Search API";
+    private static final String API_KEY = "AIzaSyDhWyRLaKQcVxuO__PCuH9k4JwSU531z0Y";
+    private GoogleNetHttpTransport httpTransport;
+    private JsonFactory jsonFactory;
 
     public BookServiceImpl(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
+//        this.httpTransport = httpTransport;
+//        this.jsonFactory = jsonFactory;
     }
 
     @Override
@@ -31,7 +46,14 @@ public class BookServiceImpl implements BookService {
 //        // What if we dont have this book in our database?
 //        // Then go fetch from google API
 //        fetchBooksFromGoogleApi
-
+        if (!book.isPresent()) {
+            Book googleBook = findBookFromGoogleApi(name);
+            if (googleBook != null) {
+                // Save the book retrieved from Google API to your database
+                bookRepository.saveAndFlush(googleBook);
+                return googleBook;
+            }
+        }
         return book.get();
     }
 
@@ -82,15 +104,16 @@ public class BookServiceImpl implements BookService {
 
     }
 
-    public Book findBookFromGoogleApi() {
-
+    public Book findBookFromGoogleApi(String name) {
+        return null;
     }
 
-    public void fetchBooksFromGoogleApi() {
-        final Book books = new Book.Builder(GoogleNetHttpTransport.newTrustedTransport(), jsonFactory, null)
+    public void fetchBooksFromGoogleApi() throws GeneralSecurityException, IOException {
+
+
+        final Books books = Books.builder((GoogleNetHttpTransport.newTrustedTransport(), jsonFactory, null)
                 .setApplicationName(APPLICATION_NAME)
                 .setGoogleClientRequestInitializer(new BooksRequestInitializer(ClientCredentials.API_KEY))
                 .build();
-        ...
     }
 }

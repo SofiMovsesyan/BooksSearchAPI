@@ -1,11 +1,13 @@
 package tumo.bookapi.api.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 
 @Entity
 @Table(name = "book")
 @Data
+@Builder
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
