@@ -42,7 +42,6 @@ public class BookController {
                     ),
             }
     )
-
     @GetMapping("{name}")
     public Book findByName(@PathVariable String name ) throws IOException {
         Book book = this.bookService.findByName(name);
