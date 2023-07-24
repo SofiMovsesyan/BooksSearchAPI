@@ -13,17 +13,17 @@ import java.util.Optional;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
-import com.google.api.services.books.Books;
-import com.google.api.services.books.BooksRequestInitializer;
-import com.google.api.services.books.model.Volume;
-import com.google.api.services.books.model.Volumes;
+import com.google.api.services.books.v1.Books;
+import com.google.api.services.books.v1.BooksRequestInitializer;
+import com.google.api.services.books.v1.model.Volume;
+import com.google.api.services.books.v1.model.Volumes;
 
 @Service
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private static final String APPLICATION_NAME = "Books Search API";
     private static final String API_KEY = "AIzaSyDhWyRLaKQcVxuO__PCuH9k4JwSU531z0Y";
-    private GoogleNetHttpTransport httpTransport;
+    private NetHttpTransport httpTransport;
     private JsonFactory jsonFactory;
 
     public BookServiceImpl(BookRepository bookRepository) {
@@ -111,7 +111,7 @@ public class BookServiceImpl implements BookService {
     public void fetchBooksFromGoogleApi() throws GeneralSecurityException, IOException {
 
 
-        final Books books = Books.builder((GoogleNetHttpTransport.newTrustedTransport(), jsonFactory, null)
+        final Books books = new Books.Builder(GoogleNetHttpTransport.newTrustedTransport(), jsonFactory, null)
                 .setApplicationName(APPLICATION_NAME)
                 .setGoogleClientRequestInitializer(new BooksRequestInitializer(ClientCredentials.API_KEY))
                 .build();
