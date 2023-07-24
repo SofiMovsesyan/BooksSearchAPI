@@ -1,5 +1,6 @@
 package tumo.bookapi.api.services;
 
+import com.google.api.services.books.v1.model.Volume;
 import jakarta.annotation.Nullable;
 import tumo.bookapi.api.domain.Book;
 
@@ -27,4 +28,6 @@ public interface BookService {
             @Nullable String description);
 
     void deleteBook(Long id);
+
+    List<Volume> searchBooks(String query);
 }

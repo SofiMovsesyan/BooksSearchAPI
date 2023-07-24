@@ -19,7 +19,7 @@ import com.google.api.services.books.v1.model.Volume;
 import com.google.api.services.books.v1.model.Volumes;
 
 @Service
-public class BookServiceImpl implements BookService {
+public abstract class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private static final String APPLICATION_NAME = "Books Search API";
     private static final String API_KEY = "AIzaSyDhWyRLaKQcVxuO__PCuH9k4JwSU531z0Y";
