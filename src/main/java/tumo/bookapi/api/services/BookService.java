@@ -3,11 +3,12 @@ package tumo.bookapi.api.services;
 import jakarta.annotation.Nullable;
 import tumo.bookapi.api.domain.Book;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface BookService {
     Book findById(Long id);
-    Book findByName(String name);
+    Book findByName(String name) throws IOException;
     Book findByAuthor(String name);
     Book findByGenre(String name);
 

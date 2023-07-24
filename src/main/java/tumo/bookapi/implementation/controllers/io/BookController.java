@@ -1,17 +1,18 @@
 package tumo.bookapi.implementation.controllers.io;
 
+import com.google.api.services.books.v1.model.Volume;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.web.bind.annotation.*;
 import tumo.bookapi.api.domain.Book;
 import tumo.bookapi.api.services.BookService;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/BooksSearch")
 public class BookController {
-
     private final BookService bookService;
 
 
@@ -43,7 +44,7 @@ public class BookController {
     )
 
     @GetMapping("{name}")
-    public Book findByName(@PathVariable String name ){
+    public Book findByName(@PathVariable String name ) throws IOException {
         Book book = this.bookService.findByName(name);
         return book;
     }
@@ -74,6 +75,11 @@ public class BookController {
             @RequestParam String description) {
         Book book = this.bookService.saveBook(name, author, genre, description);
         return book;
+    }
+
+    @GetMapping("/search")
+    public List<Volume> searchBooks(@RequestParam("q") String query) throws IOException {
+        return bookService.searchBooks(query);
     }
 
     // Add new PostMapping point to add a book to our database that will be fetched from Google books APIs

@@ -25,7 +25,7 @@ public class BookServiceImpl implements BookService {
     private static final String API_KEY = "AIzaSyDhWyRLaKQcVxuO__PCuH9k4JwSU531z0Y";
     private NetHttpTransport httpTransport;
     private JsonFactory jsonFactory;
-
+    private Books books;
     public BookServiceImpl(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
 //        this.httpTransport = httpTransport;
@@ -39,7 +39,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book findByName(String name) {
+    public Book findByName(String name) throws IOException {
         Optional<Book> book = bookRepository.findBookByName(name);
 
         // Potential Future enhancement
@@ -47,14 +47,31 @@ public class BookServiceImpl implements BookService {
 //        // Then go fetch from google API
 //        fetchBooksFromGoogleApi
         if (!book.isPresent()) {
-            Book googleBook = findBookFromGoogleApi(name);
+            List<Volume> googleBook = findBookFromGoogleApi(name);
             if (googleBook != null) {
                 // Save the book retrieved from Google API to your database
-                bookRepository.saveAndFlush(googleBook);
-                return googleBook;
+                /*bookRepository.saveAndFlush(googleBook);
+                return googleBook;*/
+
+                Book bookToSave = convertToBook(googleBook.get(0));
+                bookRepository.save(bookToSave);
+                return bookToSave;
             }
         }
         return book.get();
+    }
+
+    private Book convertToBook(Volume volume) {
+        Book book = new Book();
+
+        // Assuming Volume contains information like title, authors, description, genre, etc.
+        book.setName(volume.getVolumeInfo().getTitle());
+        book.setAuthor(volume.getVolumeInfo().getAuthors().get(0)); // Assuming a single author
+        book.setDescription(volume.getVolumeInfo().getDescription());
+        // Set other properties as needed
+        book.setGenre("Unknown"); // You can set a default genre or handle it differently
+
+        return book;
     }
 
     @Override
@@ -104,16 +121,17 @@ public class BookServiceImpl implements BookService {
 
     }
 
-    public Book findBookFromGoogleApi(String name) {
-        return null;
+    public List<Volume> findBookFromGoogleApi(String name) throws IOException{
+        Volumes volumes = books.volumes().list(name).execute();
+        return volumes.getItems();
     }
 
     public void fetchBooksFromGoogleApi() throws GeneralSecurityException, IOException {
 
 
-        final Books books = new Books.Builder(GoogleNetHttpTransport.newTrustedTransport(), jsonFactory, null)
+        books = new Books.Builder(GoogleNetHttpTransport.newTrustedTransport(), jsonFactory, null)
                 .setApplicationName(APPLICATION_NAME)
-                .setGoogleClientRequestInitializer(new BooksRequestInitializer(ClientCredentials.API_KEY))
+                .setGoogleClientRequestInitializer(new BooksRequestInitializer(API_KEY))
                 .build();
     }
 }
