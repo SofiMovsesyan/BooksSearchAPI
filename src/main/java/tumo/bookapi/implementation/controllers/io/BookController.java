@@ -22,7 +22,7 @@ public class BookController {
     }
 
     //Retrieves
-    @GetMapping("{id}")
+    @GetMapping("id/{id}")
     public Book findByID(@PathVariable Long id ){
         Book book = this.bookService.findById(id);
         return book;
@@ -43,20 +43,20 @@ public class BookController {
                     ),
             }
     )
-    @GetMapping("{name}")
-    public Book findByName(@PathVariable String name ) throws IOException {
+    @GetMapping("")
+    public Book findByName(@RequestParam String name ) throws IOException {
         Book book = this.bookService.findByName(name);
         return book;
     }
 
-    @GetMapping("{author}")
-    public Book findByAuthor(@PathVariable String author ){
+    @GetMapping("")
+    public Book findByAuthor(@RequestParam String author ){
         Book book = this.bookService.findByAuthor(author);
         return book;
     }
 
-    @GetMapping("{genre}")
-    public Book findByGenre(@PathVariable String genre ){
+    @GetMapping("")
+    public Book findByGenre(@RequestParam String genre ){
         Book book = this.bookService.findByGenre(genre);
         return book;
     }
