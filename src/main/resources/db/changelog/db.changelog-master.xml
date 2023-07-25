@@ -6,7 +6,6 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-    <includeAll path="changelogs/" relativeToChangelogFile="true"/>
 
 
     <changeSet id="1" author="Sofi and Vivien">
@@ -14,9 +13,7 @@
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" primaryKeyName="book_id_pk" />
             </column>
-            <column name="name" type="varchar(250)">
-                <constraints unique="true" uniqueConstraintName="book_name_unq" />
-            </column>
+            <column name="name" type="varchar(250)"/>
             <column name="author" type="varchar(250)" />
             <column name="description" type="varchar(1000)" />
             <column name="genre" type="varchar(250)" />

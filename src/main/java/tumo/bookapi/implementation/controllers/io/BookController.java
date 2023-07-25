@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.web.bind.annotation.*;
 import tumo.bookapi.api.domain.Book;
 import tumo.bookapi.api.services.BookService;
+import tumo.bookapi.implementation.services.BookServiceImpl;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,10 +14,10 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/BooksSearch")
 public class BookController {
-    private final BookService bookService;
+//    private final BookService bookService;
+    private final BookServiceImpl bookService;
 
-
-    public BookController(BookService bookService) {
+    public BookController(BookServiceImpl bookService) {
         this.bookService = bookService;
     }
 

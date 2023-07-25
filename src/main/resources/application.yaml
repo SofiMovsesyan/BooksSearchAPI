@@ -4,20 +4,19 @@ spring:
 #    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 
 
-liquibase:
-enabled: true
-drop-first: false
-change-log: classpath:db/changelog/db.changelog-master.xml
-default-schema: public
+      liquibase:
+            enabled: true
+            drop-first: false
+            change-log: classpath:db/changelog/db.changelog-master.xml
+            default-schema: public
 
-datasource:
-url: jdbc:postgresql://localhost:5432/postgres
-username: postgres
-password: postgres
-driver-class-name: org.postgresql.Driver
-
-jpa:
-properties:
-hibernate:
-dialect: org.hibernate.dialect.PostgreSQLdialect
-database-platform: org.hibernate.dialect.PostgreSQLDialect
+      datasource:
+            url: jdbc:postgresql://localhost:5432/postgres
+            username: postgres
+            password: postgres
+            driver-class-name: org.postgresql.Driver
+      jpa:
+            properties:
+              hibernate:
+                    dialect: org.hibernate.dialect.PostgreSQLDialect
+            database-platform: org.hibernate.dialect.PostgreSQLDialect
