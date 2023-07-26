@@ -10,9 +10,9 @@ import java.util.List;
 
 public interface BookService {
     Book findById(Long id);
-    Book findByName(String name) throws IOException, GeneralSecurityException;
-    Book findByAuthor(String name);
-    Book findByGenre(String name);
+    List<Book> findByName(String name) throws IOException, GeneralSecurityException;
+    List<Book> findByAuthor(String name);
+    List<Book> findByGenre(String name);
 
     List<Book> findAll();
 

@@ -25,7 +25,7 @@ public class BookController {
     //Retrieves
     @GetMapping("id/{id}")
     public Book findByID(@PathVariable Long id ){
-        Book book = this.bookService.findById(id);
+        Book book = (Book) this.bookService.findById(id);
         return book;
     }
 
@@ -45,21 +45,23 @@ public class BookController {
             }
     )
     @GetMapping("byName")
-    public Book findByName(@RequestParam String name ) throws IOException, GeneralSecurityException {
-        Book book = this.bookService.findByName(name);
+    public List<Book> findByName(@RequestParam String name ) throws IOException, GeneralSecurityException {
+        List<Book> book = this.bookService.findByName(name);
         return book;
     }
 
 
+
+
     @GetMapping("byAuthor")
-    public Book findByAuthor(@RequestParam String author ){
-        Book book = this.bookService.findByAuthor(author);
+    public List<Book> findByAuthor(@RequestParam String author ){
+        List<Book> book = this.bookService.findByAuthor(author);
         return book;
     }
 
     @GetMapping("byGenre")
-    public Book findByGenre(@RequestParam String genre ){
-        Book book = this.bookService.findByGenre(genre);
+    public List<Book> findByGenre(@RequestParam String genre ){
+        List<Book> book = this.bookService.findByGenre(genre);
         return book;
     }
 

@@ -38,27 +38,43 @@ public class BookServiceImpl implements BookService {
         return book.get();
     }
 
-    @Override
-    public Book findByName(String name) throws IOException, GeneralSecurityException {
-        Optional<Book> book = bookRepository.findBookByName(name);
+    /*@Override
+    public List<Book> findByName(String name) throws IOException, GeneralSecurityException {
+        List<Book> book = bookRepository.findBookByName(name);
 
         // Potential Future enhancement
 //        // What if we dont have this book in our database?
 //        // Then go fetch from google API
 //        fetchBooksFromGoogleApi
-        if (!book.isPresent()) {
+        if (book.isEmpty()) {
             List<Volume> googleBook = findBookFromGoogleApi(name);
             if (googleBook != null) {
                 // Save the book retrieved from Google API to your database
-                /*bookRepository.saveAndFlush(googleBook);
-                return googleBook;*/
+                *//*bookRepository.saveAndFlush(googleBook);
+                return googleBook;*//*
 
                 Book bookToSave = convertToBook(googleBook.get(0));
                 bookRepository.save(bookToSave);
                 return bookToSave;
             }
         }
-        return book.get();
+        return book;
+    }*/
+
+    public List<Book> findByName(String name) throws IOException, GeneralSecurityException {
+        List<Book> books = bookRepository.findBookByName(name);
+
+        if (books.isEmpty()) {
+            List<Volume> googleBooks = findBookFromGoogleApi(name);
+            if (googleBooks != null && !googleBooks.isEmpty()) {
+                // Save the book retrieved from Google API to your database
+                Book bookToSave = convertToBook(googleBooks.get(0));
+                bookRepository.save(bookToSave);
+                books.add(bookToSave);
+            }
+        }
+
+        return books;
     }
 
     private Book convertToBook(Volume volume) {
@@ -75,15 +91,21 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book findByAuthor(String author) {
-        Optional<Book> book = bookRepository.findBookByAuthor(author);
-        return book.get();
+    public List<Book> findByAuthor(String author) {
+        List<Book> book = bookRepository.findBookByAuthor(author);
+        return book;
     }
 
+//    @Override
+//    public List<Book> findByGenre(String genre) {
+//        List<Book> book = bookRepository.findBookByGenre(genre);
+//        return book;
+//    }
+
     @Override
-    public Book findByGenre(String genre) {
-        Optional<Book> book = bookRepository.findBookByGenre(genre);
-        return book.get();
+    public List<Book> findByGenre(String genre) {
+        List<Book> books = bookRepository.findBookByGenre(genre);
+        return books;
     }
 
     @Override
@@ -98,10 +120,10 @@ public class BookServiceImpl implements BookService {
         return newBook;
     }
 
-    @Override
+    /*@Override
     public Book updateBook(String name, String author, @Nullable String genre, @Nullable String description) {
-       Optional<Book> book = bookRepository.findBookByName(name);
-       if (book.isPresent()){
+       List<Book> book = bookRepository.findBookByName(name);
+       if (!books.isEmpty()){
            if (genre != null){
                book.get().setGenre(genre);
            }
@@ -113,7 +135,29 @@ public class BookServiceImpl implements BookService {
            return savedBook;
        }
        return null;
+    }*/
+    @Override
+    public Book updateBook(String name, String author, @Nullable String genre, @Nullable String description) {
+        List<Book> books = bookRepository.findBookByName(name);
+
+        if (!books.isEmpty()) {
+            Book bookToUpdate = books.get(0);
+
+            if (genre != null) {
+                bookToUpdate.setGenre(genre);
+            }
+            if (description != null) {
+                bookToUpdate.setDescription(description);
+            }
+
+            Book savedBook = bookRepository.save(bookToUpdate);
+            return savedBook;
+        }
+
+        // Handle case when the book is not found
+       return null;
     }
+
 
     @Override
     public void deleteBook(Long id) {
