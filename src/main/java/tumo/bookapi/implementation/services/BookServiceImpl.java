@@ -39,7 +39,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book findByName(String name) throws IOException {
+    public Book findByName(String name) throws IOException, GeneralSecurityException {
         Optional<Book> book = bookRepository.findBookByName(name);
 
         // Potential Future enhancement
@@ -126,7 +126,8 @@ public class BookServiceImpl implements BookService {
         return null;
     }
 
-    public List<Volume> findBookFromGoogleApi(String name) throws IOException{
+    public List<Volume> findBookFromGoogleApi(String name) throws IOException, GeneralSecurityException {
+        fetchBooksFromGoogleApi();
         Volumes volumes = books.volumes().list(name).execute();
         return volumes.getItems();
     }

@@ -9,6 +9,7 @@ import tumo.bookapi.api.services.BookService;
 import tumo.bookapi.implementation.services.BookServiceImpl;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 
 @RestController
@@ -43,19 +44,26 @@ public class BookController {
                     ),
             }
     )
-    @GetMapping("")
-    public Book findByName(@RequestParam String name ) throws IOException {
+//    @GetMapping("byName")
+//    public Book findByName(@RequestParam String name ) throws IOException, GeneralSecurityException {
+//        Book book = this.bookService.findByName(name);
+//        return book;
+//    }
+
+    @GetMapping("byName")
+    public Book findByName(@RequestParam String name ) throws IOException, GeneralSecurityException {
         Book book = this.bookService.findByName(name);
         return book;
     }
 
-    @GetMapping("")
+
+    @GetMapping("byAuthor")
     public Book findByAuthor(@RequestParam String author ){
         Book book = this.bookService.findByAuthor(author);
         return book;
     }
 
-    @GetMapping("")
+    @GetMapping("byGenre")
     public Book findByGenre(@RequestParam String genre ){
         Book book = this.bookService.findByGenre(genre);
         return book;

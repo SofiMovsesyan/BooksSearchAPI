@@ -5,11 +5,12 @@ import jakarta.annotation.Nullable;
 import tumo.bookapi.api.domain.Book;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 
 public interface BookService {
     Book findById(Long id);
-    Book findByName(String name) throws IOException;
+    Book findByName(String name) throws IOException, GeneralSecurityException;
     Book findByAuthor(String name);
     Book findByGenre(String name);
 
