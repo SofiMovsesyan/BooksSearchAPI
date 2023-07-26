@@ -44,12 +44,6 @@ public class BookController {
                     ),
             }
     )
-//    @GetMapping("byName")
-//    public Book findByName(@RequestParam String name ) throws IOException, GeneralSecurityException {
-//        Book book = this.bookService.findByName(name);
-//        return book;
-//    }
-
     @GetMapping("byName")
     public Book findByName(@RequestParam String name ) throws IOException, GeneralSecurityException {
         Book book = this.bookService.findByName(name);
