@@ -45,8 +45,8 @@ public class BookServiceImpl implements BookService {
         List<Book> book = bookRepository.findBookByName(name);
 
         // Potential Future enhancement
-//        // What if we dont have this book in our database?
-//        // Then go fetch from google API
+//        // What if we don't have this book in our database?
+//        // Then go fetch from Google API
 //        fetchBooksFromGoogleApi
         if (book.isEmpty()) {
             List<Volume> googleBook = findBookFromGoogleApi(name);
