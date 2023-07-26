@@ -1,4 +1,5 @@
 package tumo.bookapi.implementation.services;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import jakarta.annotation.Nullable;
 import org.springframework.stereotype.Service;
 import tumo.bookapi.api.domain.Book;
@@ -30,6 +31,7 @@ public class BookServiceImpl implements BookService {
         this.bookRepository = bookRepository;
 //        this.httpTransport = httpTransport;
 //        this.jsonFactory = jsonFactory;
+        this.jsonFactory = JacksonFactory.getDefaultInstance();
     }
 
     @Override
@@ -171,17 +173,16 @@ public class BookServiceImpl implements BookService {
     }
 
     public List<Volume> findBookFromGoogleApi(String name) throws IOException, GeneralSecurityException {
-        fetchBooksFromGoogleApi();
+        books = fetchBooksFromGoogleApi();
         Volumes volumes = books.volumes().list(name).execute();
         return volumes.getItems();
     }
 
-    public void fetchBooksFromGoogleApi() throws GeneralSecurityException, IOException {
-
-
+    public Books fetchBooksFromGoogleApi() throws GeneralSecurityException, IOException {
         books = new Books.Builder(GoogleNetHttpTransport.newTrustedTransport(), jsonFactory, null)
                 .setApplicationName(APPLICATION_NAME)
                 .setGoogleClientRequestInitializer(new BooksRequestInitializer(API_KEY))
                 .build();
+        return books;
     }
 }

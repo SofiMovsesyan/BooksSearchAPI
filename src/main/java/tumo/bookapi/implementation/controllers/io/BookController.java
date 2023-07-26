@@ -87,11 +87,20 @@ public class BookController {
     }
 
     // Add new PostMapping point to add a book to our database that will be fetched from Google books APIs
-    @PostMapping("/fromGoogleApi/")
-
-
+//    @PostMapping("/fromGoogleApi/")
 
     //Update
+    /*@PutMapping("")
+    public Book updateBook(
+            @RequestParam String name,
+            @RequestParam String author,
+            @RequestParam(required = false) String genre,
+            @RequestParam(required = false) String description
+    ) {
+        Book book = this.bookService.updateBook(name, author, genre, description);
+        return book;
+    }*/
+
     @PutMapping("")
     public Book updateBook(
             @RequestParam String name,
@@ -102,6 +111,7 @@ public class BookController {
         Book book = this.bookService.updateBook(name, author, genre, description);
         return book;
     }
+
 
     //Delete
     @DeleteMapping("{id}")
