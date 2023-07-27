@@ -8,6 +8,7 @@ import tumo.bookapi.api.services.BookService;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,7 +68,7 @@ public class BookServiceImpl implements BookService {
         List<Book> books = bookRepository.findBookByName(name);
 
         if (books.isEmpty()) {
-            List<Volume> googleBooks = findBookFromGoogleApi(name);
+            List<Volume> googleBooks = findBookByNameFromGoogleApi(name);
             if (googleBooks != null && !googleBooks.isEmpty()) {
                 // Save the book retrieved from Google API to your database
                 Book bookToSave = convertToBook(googleBooks.get(0));
@@ -87,15 +88,32 @@ public class BookServiceImpl implements BookService {
         book.setAuthor(volume.getVolumeInfo().getAuthors().get(0)); // Assuming a single author
         book.setDescription(volume.getVolumeInfo().getDescription());
         // Set other properties as needed
-        book.setGenre("Unknown"); // You can set a default genre or handle it differently
+        book.setGenre(volume.getVolumeInfo().getCategories().get(0)); // You can set a default genre or handle it differently
 
         return book;
     }
 
+
+
+
     @Override
-    public List<Book> findByAuthor(String author) {
-        List<Book> book = bookRepository.findBookByAuthor(author);
-        return book;
+    public List<Book> findByAuthor(String author) throws GeneralSecurityException, IOException {
+//        List<Book> book = bookRepository.findBookByAuthor(author);
+//        return book;
+
+        List<Book> books = bookRepository.findBookByAuthor(author);
+
+        if (books.isEmpty()) {
+            List<Volume> googleBooks = findBookByAuthorFromGoogleApi(author);
+            if (googleBooks != null && !googleBooks.isEmpty()) {
+                // Save the book retrieved from Google API to your database
+                Book bookToSave = convertToBook(googleBooks.get(0));
+                bookRepository.save(bookToSave);
+                books.add(bookToSave);
+            }
+        }
+
+        return books;
     }
 
 //    @Override
@@ -172,9 +190,15 @@ public class BookServiceImpl implements BookService {
         return null;
     }
 
-    public List<Volume> findBookFromGoogleApi(String name) throws IOException, GeneralSecurityException {
+    public List<Volume> findBookByNameFromGoogleApi(String name) throws IOException, GeneralSecurityException {
         books = fetchBooksFromGoogleApi();
         Volumes volumes = books.volumes().list(name).execute();
+        return volumes.getItems();
+    }
+
+    public List<Volume> findBookByAuthorFromGoogleApi(String author) throws IOException, GeneralSecurityException {
+        books = fetchBooksFromGoogleApi();
+        Volumes volumes = books.volumes().list(author).execute();
         return volumes.getItems();
     }
 

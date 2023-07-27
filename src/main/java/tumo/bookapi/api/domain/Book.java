@@ -19,51 +19,34 @@ public class Book {
     @Column(name = "author")
     private String author;
 
-    @Column(name = "description")
-    private String description;
-
     @Column(name = "genre")
     private String genre;
 
-    public Book(String name, String author, String description, String genre) {
+    @Column(name = "description")
+    private String description;
+    public Book(String name, String author,  String genre, String description) {
         this.name = name;
         this.author = author;
-        this.description = description;
         this.genre = genre;
+        this.description = description;
     }
 
-    public String getName() {
-        return name;
-    }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getAuthor() {
-        return author;
     }
 
     public void setAuthor(String author) {
         this.author = author;
     }
 
-    public String getDescription() {
-        return description;
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
     public Book() {
 
     }

@@ -54,7 +54,7 @@ public class BookController {
 
 
     @GetMapping("byAuthor")
-    public List<Book> findByAuthor(@RequestParam String author ){
+    public List<Book> findByAuthor(@RequestParam String author ) throws GeneralSecurityException, IOException {
         List<Book> book = this.bookService.findByAuthor(author);
         return book;
     }
