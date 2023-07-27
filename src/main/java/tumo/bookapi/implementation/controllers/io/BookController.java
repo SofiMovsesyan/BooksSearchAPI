@@ -13,7 +13,7 @@ import java.security.GeneralSecurityException;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/BooksSearch")
+@RequestMapping("api/v1/BooksSearchAPI")
 public class BookController {
 //    private final BookService bookService;
     private final BookServiceImpl bookService;
@@ -60,7 +60,7 @@ public class BookController {
     }
 
     @GetMapping("byGenre")
-    public List<Book> findByGenre(@RequestParam String genre ){
+    public List<Book> findByGenre(@RequestParam String genre ) throws GeneralSecurityException, IOException {
         List<Book> book = this.bookService.findByGenre(genre);
         return book;
     }

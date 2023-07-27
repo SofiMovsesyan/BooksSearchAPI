@@ -12,7 +12,7 @@ public interface BookService {
     Book findById(Long id);
     List<Book> findByName(String name) throws IOException, GeneralSecurityException;
     List<Book> findByAuthor(String name) throws GeneralSecurityException, IOException;
-    List<Book> findByGenre(String name);
+    List<Book> findByGenre(String name) throws GeneralSecurityException, IOException;
 
     List<Book> findAll();
 

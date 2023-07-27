@@ -123,10 +123,23 @@ public class BookServiceImpl implements BookService {
 //    }
 
     @Override
-    public List<Book> findByGenre(String genre) {
+    public List<Book> findByGenre(String genre) throws GeneralSecurityException, IOException {
         List<Book> books = bookRepository.findBookByGenre(genre);
+
+        if (books.isEmpty()) {
+            List<Volume> googleBooks = findBookByGenreFromGoogleApi(genre);
+            if (googleBooks != null && !googleBooks.isEmpty()) {
+                // Save the book retrieved from Google API to your database
+                Book bookToSave = convertToBook(googleBooks.get(0));
+                bookRepository.save(bookToSave);
+                books.add(bookToSave);
+            }
+        }
+
         return books;
     }
+
+
 
     @Override
     public List<Book> findAll() {
@@ -199,6 +212,11 @@ public class BookServiceImpl implements BookService {
     public List<Volume> findBookByAuthorFromGoogleApi(String author) throws IOException, GeneralSecurityException {
         books = fetchBooksFromGoogleApi();
         Volumes volumes = books.volumes().list(author).execute();
+        return volumes.getItems();
+    }
+  public List<Volume> findBookByGenreFromGoogleApi(String genre) throws IOException, GeneralSecurityException {
+        books = fetchBooksFromGoogleApi();
+        Volumes volumes = books.volumes().list(genre).execute();
         return volumes.getItems();
     }
 
